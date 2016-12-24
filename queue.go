@@ -119,6 +119,7 @@ func (q *Queue) Get(timeout float64) (interface{}, error) {
 	q.clearPending()
 	isempty := q.isempty()
 	if timeout < 0.0 && isempty {
+		defer q.mutex.Unlock()
 		return nil, ErrEmptyQueue
 	}
 
